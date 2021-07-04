@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ext .js --fix",
-    "prettier": "prettier --config .prettierrc \"src/**/*.js\" --write",
+    "lint": "eslint . --ext .ts --fix",
+    "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "start": "nodemon src/index.ts",
     "build": "npx tsc"
   },
