@@ -1,9 +1,11 @@
 {
+    
     "parserOptions": {
+        "sourceType": "module",
         "ecmaVersion": 6,
         "impliedStrict": true
     },
     "rules": {
-        "no-console": ["warn", { "allow": ["warn", "error"] }]
+        "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
     }
   }
