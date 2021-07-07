@@ -14,3 +14,5 @@ app.get("/", (req, res): void => {
 });
 
 app.use("/api", routes);
+
+export default app;
