@@ -1,8 +1,9 @@
 import express from "express";
+import resize from "../../utilities/resizeImage";
 
 const image = express.Router();
 
-image.get("/", (req, res) => {
-  res.send("<h3>Image Route</h3>");
+image.get("/", resize, (req, res) => {
 });
+
 export default image;
