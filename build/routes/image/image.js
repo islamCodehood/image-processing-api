@@ -6,12 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var resizeImage_1 = __importDefault(require("../../utilities/resizeImage"));
 var image = express_1.default.Router();
-image.get("/", function (req, res) {
-    var query = req.query;
-    var imageName = query.name;
-    var width = query.width;
-    var height = query.height;
-    resizeImage_1.default(imageName, width, height);
-    res.send(req.query);
+image.get("/", resizeImage_1.default, function (req, res) {
+    res.end();
 });
 exports.default = image;

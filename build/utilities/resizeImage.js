@@ -40,33 +40,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var sharp_1 = __importDefault(require("sharp"));
-var resize = function (imageName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var sharpObject, widthNumber, heightNumber, resizedImage, outPutImage, e_1;
+var fs_1 = require("fs");
+var resize = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, width, height, imageName, cashedFiles, file, image, outPutImage, image, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.info(imageName);
-                _a.label = 1;
+                query = req.query;
+                width = parseInt(query.width);
+                height = parseInt(query.height);
+                imageName = query.name;
+                return [4 /*yield*/, fs_1.promises.readdir("resized-images")];
             case 1:
-                _a.trys.push([1, 5, , 6]);
-                return [4 /*yield*/, sharp_1.default("images/" + imageName)];
+                cashedFiles = _a.sent();
+                file = cashedFiles.find(function (file) { return file === width + "-" + height + "-" + imageName; });
+                if (!file) return [3 /*break*/, 3];
+                return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
             case 2:
-                sharpObject = _a.sent();
-                widthNumber = parseInt(width);
-                heightNumber = parseInt(height);
-                return [4 /*yield*/, sharpObject.resize(widthNumber, heightNumber)];
+                image = _a.sent();
+                //display the resized image as a response
+                res.writeHead(200, { "Content-Type": "text/html" });
+                res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Previously Resized </p><img style="margin-right: auto; margin-left: auto; display: block;" src="data:image/jpeg;base64,');
+                res.write(Buffer.from(image).toString("base64"));
+                res.end('"/>');
+                return [2 /*return*/, file];
             case 3:
-                resizedImage = _a.sent();
-                return [4 /*yield*/, resizedImage.toFile("resized-images/" + width + "-" + height + "-" + imageName)];
+                _a.trys.push([3, 6, , 7]);
+                return [4 /*yield*/, sharp_1.default("images/" + query.name)
+                        .resize(width, height, { fit: "contain" })
+                        .toFile("resized-images/" + width + "-" + height + "-" + imageName)];
             case 4:
                 outPutImage = _a.sent();
-                console.info("done", outPutImage);
-                return [2 /*return*/, outPutImage];
+                return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
             case 5:
-                e_1 = _a.sent();
-                console.info(e_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                image = _a.sent();
+                //display the resized image as a response
+                res.writeHead(200, { "Content-Type": "text/html" });
+                res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
+                res.write(Buffer.from(image).toString("base64"));
+                res.end('"/>');
+                return [2 /*return*/, outPutImage];
+            case 6:
+                err_1 = _a.sent();
+                if (!imageName) {
+                    res.send("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
+                }
+                if (!width || !height) {
+                    res.send("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
+                }
+                return [3 /*break*/, 7];
+            case 7:
+                next();
+                return [2 /*return*/];
         }
     });
 }); };
