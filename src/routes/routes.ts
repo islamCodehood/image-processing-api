@@ -4,7 +4,7 @@ import image from "./image/image";
 const app = express();
 const routes = express.Router();
 
-routes.get("/", (req, res) => {
+routes.get("/", (req: express.Request, res: express.Response): void => {
   res.send("<h2>Routes</h2>");
 });
 
