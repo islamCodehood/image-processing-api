@@ -2,7 +2,7 @@ import express from "express";
 import routes from "./routes/routes";
 
 const app = express();
-const port = 3000;
+const port = 3888;
 
 app.get("/", (req: express.Request, res: express.Response): void => {
   res.send("<h1>Main Route</h1>");
