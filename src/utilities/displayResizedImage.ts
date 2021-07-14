@@ -37,7 +37,7 @@ const displayResizedImage = async (
     res.end('"/>');
   }
   try {
-    console.log(imageName);
+    return;
   } catch (err) {
     if (!imageName) {
       res.write(
