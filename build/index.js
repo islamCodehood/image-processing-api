@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var routes_1 = __importDefault(require("./routes/routes"));
 var app = express_1.default();
-var port = 3000;
+var port = 3888;
 app.get("/", function (req, res) {
     res.send("<h1>Main Route</h1>");
 });

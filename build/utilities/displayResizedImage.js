@@ -43,7 +43,7 @@ var checkCachedImages_1 = __importDefault(require("./checkCachedImages"));
 var resizeImage_1 = __importDefault(require("./resizeImage"));
 var fs_1 = require("fs");
 var displayResizedImage = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, width, height, imageName, image, image, err_1;
+    var query, width, height, imageName, image, image;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -51,40 +51,40 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
                 width = parseInt(query.width);
                 height = parseInt(query.height);
                 imageName = query.name;
-                console.log(imageName);
-                _a.label = 1;
+                return [4 /*yield*/, checkCachedImages_1.default(imageName, width, height)];
             case 1:
-                _a.trys.push([1, 6, , 7]);
-                if (!!checkCachedImages_1.default(imageName, width, height)) return [3 /*break*/, 3];
-                console.log('not present');
-                resizeImage_1.default(imageName, width, height);
-                return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
+                if (!!(_a.sent())) return [3 /*break*/, 4];
+                return [4 /*yield*/, resizeImage_1.default(imageName, width, height)];
             case 2:
+                _a.sent();
+                return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
+            case 3:
                 image = _a.sent();
                 res.writeHead(200, { "Content-Type": "text/html" });
                 res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
                 res.write(Buffer.from(image).toString("base64"));
                 res.end('"/>');
-                return [3 /*break*/, 5];
-            case 3: return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
-            case 4:
+                return [3 /*break*/, 6];
+            case 4: return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
+            case 5:
                 image = _a.sent();
                 res.writeHead(200, { "Content-Type": "text/html" });
                 res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
                 res.write(Buffer.from(image).toString("base64"));
                 res.end('"/>');
-                _a.label = 5;
-            case 5: return [3 /*break*/, 7];
+                _a.label = 6;
             case 6:
-                err_1 = _a.sent();
-                if (!imageName) {
-                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
+                try {
+                    return [2 /*return*/];
                 }
-                if (!width || !height) {
-                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
+                catch (err) {
+                    if (!imageName) {
+                        res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
+                    }
+                    if (!width || !height) {
+                        res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
+                    }
                 }
-                return [3 /*break*/, 7];
-            case 7:
                 next();
                 return [2 /*return*/];
         }

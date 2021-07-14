@@ -44,9 +44,7 @@ var checkCachedImages = function (imageName, width, height) { return __awaiter(v
             case 0: return [4 /*yield*/, fs_1.promises.readdir("resized-images")];
             case 1:
                 cachedFiles = _a.sent();
-                console.log(cachedFiles);
                 file = cachedFiles.find(function (file) { return file === width + "-" + height + "-" + imageName; });
-                console.log(file);
                 if (file) {
                     return [2 /*return*/, true];
                 }

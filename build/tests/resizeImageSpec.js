@@ -41,15 +41,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
-var routes_1 = __importDefault(require("../routes/routes"));
+var checkCachedImages_1 = __importDefault(require("../utilities/checkCachedImages"));
+var resizeImage_1 = __importDefault(require("../utilities/resizeImage"));
 describe("Test endpoints", function () {
+    var request = supertest_1.default(index_1.default);
     it("should get the root endpoint", function (done) { return __awaiter(void 0, void 0, void 0, function () {
-        var request, response;
+        var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    request = supertest_1.default(index_1.default);
-                    return [4 /*yield*/, request.get("/")];
+                case 0: return [4 /*yield*/, request.get("/")];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(200);
@@ -59,12 +59,10 @@ describe("Test endpoints", function () {
         });
     }); });
     it("should get the api endpoint", function (done) { return __awaiter(void 0, void 0, void 0, function () {
-        var request, response;
+        var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    request = supertest_1.default(index_1.default);
-                    return [4 /*yield*/, request.get("/api")];
+                case 0: return [4 /*yield*/, request.get("/api")];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(200);
@@ -73,16 +71,74 @@ describe("Test endpoints", function () {
             }
         });
     }); });
-    it("should get the image endpoint", function (done) { return __awaiter(void 0, void 0, void 0, function () {
-        var request, response;
+});
+describe("Test checkCachedImages function", function () {
+    it("should be true when image name with same width & height found", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    request = supertest_1.default(routes_1.default);
-                    return [4 /*yield*/, request.get("/image")];
+                case 0: return [4 /*yield*/, checkCachedImages_1.default("test-img.jpg", 300, 250)];
                 case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
+                    result = _a.sent();
+                    expect(result).toBe(true);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should be false when image name is not found in cached image folder while width & height are right", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, checkCachedImages_1.default("notFoundImageName.jpg", 100, 200)];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toBe(false);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should be false when image name is found in cached image folder while width is not right", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, checkCachedImages_1.default("test-img.jpg", 200, 250)];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toBe(false);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should be false when image name is found in cached image folder while height is not right", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, checkCachedImages_1.default("test-img.jpg", 300, 150)];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toBe(false);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Test resizeImage Function", function () {
+    it("should return resized image object if image is not in cached image folder", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resizeImage_1.default("test-img-2.jpg", 200, 500)];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toEqual(jasmine.objectContaining({
+                        format: "jpeg",
+                        width: 200,
+                        height: 500,
+                    }));
                     done();
                     return [2 /*return*/];
             }

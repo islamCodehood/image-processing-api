@@ -42,25 +42,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var sharp_1 = __importDefault(require("sharp"));
 var fs_1 = require("fs");
 var resizeImage = function (imageName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var images, image, err_1;
+    var images, image, resizedImage, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, fs_1.promises.readdir("images")];
             case 1:
                 images = _a.sent();
                 image = images.find(function (file) { return file === "" + imageName; });
-                console.log('start');
                 _a.label = 2;
             case 2:
                 _a.trys.push([2, 5, , 6]);
-                console.log('start2');
                 if (!image) return [3 /*break*/, 4];
                 return [4 /*yield*/, sharp_1.default("images/" + imageName)
                         .resize(width, height, { fit: "contain" })
                         .toFile("resized-images/" + width + "-" + height + "-" + imageName)];
             case 3:
-                _a.sent();
-                _a.label = 4;
+                resizedImage = _a.sent();
+                return [2 /*return*/, resizedImage];
             case 4: return [3 /*break*/, 6];
             case 5:
                 err_1 = _a.sent();
