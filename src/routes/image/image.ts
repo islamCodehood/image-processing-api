@@ -6,7 +6,7 @@ const image = express.Router();
 image.get(
   "/",
   displayResizedImage,
-  (req: express.Request, res: express.Response): void => {
+  function(req: express.Request, res: express.Response): void {
     res.end();
   }
 );
