@@ -35,39 +35,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharp_1 = __importDefault(require("sharp"));
 var fs_1 = require("fs");
-var resizeImage = function (imageName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var images, image, err_1;
+var checkCachedImages = function (imageName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
+    var cachedFiles, file;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fs_1.promises.readdir("images")];
+            case 0: return [4 /*yield*/, fs_1.promises.readdir("resized-images")];
             case 1:
-                images = _a.sent();
-                image = images.find(function (file) { return file === "" + imageName; });
-                console.log('start');
-                _a.label = 2;
-            case 2:
-                _a.trys.push([2, 5, , 6]);
-                console.log('start2');
-                if (!image) return [3 /*break*/, 4];
-                return [4 /*yield*/, sharp_1.default("images/" + imageName)
-                        .resize(width, height, { fit: "contain" })
-                        .toFile("resized-images/" + width + "-" + height + "-" + imageName)];
-            case 3:
-                _a.sent();
-                _a.label = 4;
-            case 4: return [3 /*break*/, 6];
-            case 5:
-                err_1 = _a.sent();
-                console.error(err_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                cachedFiles = _a.sent();
+                console.log(cachedFiles);
+                file = cachedFiles.find(function (file) { return file === width + "-" + height + "-" + imageName; });
+                console.log(file);
+                if (file) {
+                    return [2 /*return*/, true];
+                }
+                else {
+                    return [2 /*return*/, false];
+                }
+                return [2 /*return*/];
         }
     });
 }); };
-exports.default = resizeImage;
+exports.default = checkCachedImages;
