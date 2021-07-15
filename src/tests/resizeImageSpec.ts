@@ -16,6 +16,12 @@ describe("Test endpoints", () => {
     expect(response.status).toBe(200);
     done();
   });
+
+  it("should get the image endpoint", async (done) => {
+    const response = await request.get("/api/image?name=test-img.jpg&width=100&height=150");
+    expect(response.status).toBe(200);
+    done();
+  });
 });
 
 describe("Test checkCachedImages function", () => {
