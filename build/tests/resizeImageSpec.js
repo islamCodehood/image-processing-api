@@ -71,6 +71,19 @@ describe("Test endpoints", function () {
             }
         });
     }); });
+    it("should get the image endpoint", function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/api/image?name=test-img.jpg&width=100&height=150")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(200);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
 describe("Test checkCachedImages function", function () {
     it("should be true when image name with same width & height found", function (done) { return __awaiter(void 0, void 0, void 0, function () {

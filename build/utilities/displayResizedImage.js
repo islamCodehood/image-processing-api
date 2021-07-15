@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var checkCachedImages_1 = __importDefault(require("./checkCachedImages"));
 var resizeImage_1 = __importDefault(require("./resizeImage"));
 var fs_1 = require("fs");
+var checkRequest_1 = __importDefault(require("./checkRequest"));
 var displayResizedImage = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var query, width, height, imageName, image, image;
     return __generator(this, function (_a) {
@@ -51,6 +52,14 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
                 width = parseInt(query.width);
                 height = parseInt(query.height);
                 imageName = query.name;
+                if (checkRequest_1.default(imageName, width, height) === 'no image name') {
+                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
+                    return [2 /*return*/];
+                }
+                else if (checkRequest_1.default(imageName, width, height) === "no width or height") {
+                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
+                    return [2 /*return*/];
+                }
                 return [4 /*yield*/, checkCachedImages_1.default(imageName, width, height)];
             case 1:
                 if (!!(_a.sent())) return [3 /*break*/, 4];
@@ -78,12 +87,7 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
                     return [2 /*return*/];
                 }
                 catch (err) {
-                    if (!imageName) {
-                        res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
-                    }
-                    if (!width || !height) {
-                        res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
-                    }
+                    console.error(err);
                 }
                 next();
                 return [2 /*return*/];
