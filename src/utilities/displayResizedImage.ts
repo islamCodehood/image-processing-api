@@ -2,6 +2,7 @@ import express from "express";
 import checkCachedImages from "./checkCachedImages";
 import resizeImage from "./resizeImage";
 import { promises as fsPromises } from "fs";
+import checkRequest from "./checkRequest";
 
 const displayResizedImage = async (
   req: express.Request,
@@ -13,6 +14,18 @@ const displayResizedImage = async (
   const width = parseInt(query.width as unknown as string);
   const height = parseInt(query.height as unknown as string);
   const imageName = query.name as string;
+
+  if (checkRequest(imageName, width, height) === 'no image name') {
+    res.write(
+      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Please, write the image name!</p>`
+    );
+    return;
+  } else if (checkRequest(imageName, width, height) === "no width or height") {
+    res.write(
+      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Be sure to add a width and height!</p>`
+    );
+    return;
+  }
 
   if (!(await checkCachedImages(imageName, width, height))) {
     await resizeImage(imageName, width, height);
@@ -39,16 +52,8 @@ const displayResizedImage = async (
   try {
     return;
   } catch (err) {
-    if (!imageName) {
-      res.write(
-        `<p style="text-align: center; font-weight: bold; font-size: 36px;">Please, write the image name!</p>`
-      );
-    }
-    if (!width || !height) {
-      res.write(
-        `<p style="text-align: center; font-weight: bold; font-size: 36px;">Be sure to add a width and height!</p>`
-      );
-    }
+    console.error(err)
+    
   }
 
   next();
