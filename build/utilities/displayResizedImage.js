@@ -44,7 +44,7 @@ var resizeImage_1 = __importDefault(require("./resizeImage"));
 var fs_1 = require("fs");
 var checkRequest_1 = __importDefault(require("./checkRequest"));
 var displayResizedImage = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, width, height, imageName, image, image;
+    var query, width, height, imageName, requestStatus, image, image;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -52,41 +52,44 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
                 width = parseInt(query.width);
                 height = parseInt(query.height);
                 imageName = query.name;
-                if (checkRequest_1.default(imageName, width, height) === 'no image name') {
+                return [4 /*yield*/, checkRequest_1.default(imageName, width, height)];
+            case 1:
+                requestStatus = _a.sent();
+                if (requestStatus === "no image name") {
                     res.write("<p style=\"font-size: 18px;\">Please, write the image name!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
                     return [2 /*return*/];
                 }
-                else if (checkRequest_1.default(imageName, width, height) === "no width or height") {
+                else if (requestStatus === "no width or height") {
                     res.write("<p style=\"font-size: 18px;\">Be sure to add a width and height!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
                     return [2 /*return*/];
                 }
-                else if (checkRequest_1.default(imageName, width, height) === 'image not found') {
+                else if (requestStatus === "image not found") {
                     res.write("<p style=\"font-size: 18px;\">Image not found!</p>");
                     return [2 /*return*/];
                 }
                 return [4 /*yield*/, checkCachedImages_1.default(imageName, width, height)];
-            case 1:
-                if (!!(_a.sent())) return [3 /*break*/, 4];
-                return [4 /*yield*/, resizeImage_1.default(imageName, width, height)];
             case 2:
+                if (!!(_a.sent())) return [3 /*break*/, 5];
+                return [4 /*yield*/, resizeImage_1.default(imageName, width, height)];
+            case 3:
                 _a.sent();
                 return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
-            case 3:
+            case 4:
                 image = _a.sent();
                 res.writeHead(200, { "Content-Type": "text/html" });
                 res.write('<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
                 res.write(Buffer.from(image).toString("base64"));
                 res.end('"/>');
-                return [3 /*break*/, 6];
-            case 4: return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
-            case 5:
-                image = _a.sent();
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.write('<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
-                res.write(Buffer.from(image).toString("base64"));
-                res.end('"/>');
-                _a.label = 6;
+                return [3 /*break*/, 7];
+            case 5: return [4 /*yield*/, fs_1.promises.readFile("resized-images/" + width + "-" + height + "-" + imageName)];
             case 6:
+                image = _a.sent();
+                res.writeHead(200, { "Content-Type": "text/html" });
+                res.write('<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
+                res.write(Buffer.from(image).toString("base64"));
+                res.end('"/>');
+                _a.label = 7;
+            case 7:
                 try {
                     return [2 /*return*/];
                 }
