@@ -15,7 +15,7 @@ const displayResizedImage = async (
   const height = parseInt(query.height as unknown as string);
   const imageName = query.name as string;
 
-  if (checkRequest(imageName, width, height) === 'no image name') {
+  if (checkRequest(imageName, width, height) === "no image name") {
     res.write(
       `<p style="font-size: 18px;">Please, write the image name!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>`
     );
@@ -25,10 +25,8 @@ const displayResizedImage = async (
       `<p style="font-size: 18px;">Be sure to add a width and height!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>`
     );
     return;
-  } else if ( checkRequest(imageName, width, height)=== 'image not found') {
-    res.write(
-      `<p style="font-size: 18px;">Image not found!</p>`
-    );
+  } else if (checkRequest(imageName, width, height) === "image not found") {
+    res.write(`<p style="font-size: 18px;">Image not found!</p>`);
     return;
   }
 
@@ -57,8 +55,7 @@ const displayResizedImage = async (
   try {
     return;
   } catch (err) {
-    console.error(err)
-    
+    console.error(err);
   }
 
   next();

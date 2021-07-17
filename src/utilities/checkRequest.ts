@@ -1,5 +1,5 @@
 import express from "express";
-import checkImagePresence from './checkImagePresence'
+import checkImagePresence from "./checkImagePresence";
 const checkRequest = (
   imageName: string,
   width: number,
@@ -10,9 +10,9 @@ const checkRequest = (
   } else if (!width || !height) {
     return "no width or height";
   } else if (!checkImagePresence(imageName)) {
-    return "image not found"
+    return "image not found";
   }
-  return "ok" 
+  return "ok";
 };
 
 export default checkRequest;
