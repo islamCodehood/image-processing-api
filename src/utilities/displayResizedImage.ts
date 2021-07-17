@@ -17,17 +17,17 @@ const displayResizedImage = async (
 
   if (checkRequest(imageName, width, height) === 'no image name') {
     res.write(
-      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Please, write the image name!</p>`
+      `<p style="font-size: 18px;">Please, write the image name!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>`
     );
     return;
   } else if (checkRequest(imageName, width, height) === "no width or height") {
     res.write(
-      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Be sure to add a width and height!</p>`
+      `<p style="font-size: 18px;">Be sure to add a width and height!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>`
     );
     return;
-  } esle if ( checkRequest(imageName, width, height)=== 'image not found') {
+  } else if ( checkRequest(imageName, width, height)=== 'image not found') {
     res.write(
-      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Image not found!</p>`
+      `<p style="font-size: 18px;">Image not found!</p>`
     );
     return;
   }
@@ -39,7 +39,7 @@ const displayResizedImage = async (
     );
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(
-      '<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,'
+      '<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,'
     );
     res.write(Buffer.from(image).toString("base64"));
     res.end('"/>');
@@ -49,7 +49,7 @@ const displayResizedImage = async (
     );
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(
-      '<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,'
+      '<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,'
     );
     res.write(Buffer.from(image).toString("base64"));
     res.end('"/>');
