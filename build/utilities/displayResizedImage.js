@@ -53,11 +53,15 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
                 height = parseInt(query.height);
                 imageName = query.name;
                 if (checkRequest_1.default(imageName, width, height) === 'no image name') {
-                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Please, write the image name!</p>");
+                    res.write("<p style=\"font-size: 18px;\">Please, write the image name!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
                     return [2 /*return*/];
                 }
                 else if (checkRequest_1.default(imageName, width, height) === "no width or height") {
-                    res.write("<p style=\"text-align: center; font-weight: bold; font-size: 36px;\">Be sure to add a width and height!</p>");
+                    res.write("<p style=\"font-size: 18px;\">Be sure to add a width and height!</p><p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
+                    return [2 /*return*/];
+                }
+                else if (checkRequest_1.default(imageName, width, height) === 'image not found') {
+                    res.write("<p style=\"font-size: 18px;\">Image not found!</p>");
                     return [2 /*return*/];
                 }
                 return [4 /*yield*/, checkCachedImages_1.default(imageName, width, height)];
@@ -70,7 +74,7 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
             case 3:
                 image = _a.sent();
                 res.writeHead(200, { "Content-Type": "text/html" });
-                res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
+                res.write('<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
                 res.write(Buffer.from(image).toString("base64"));
                 res.end('"/>');
                 return [3 /*break*/, 6];
@@ -78,7 +82,7 @@ var displayResizedImage = function (req, res, next) { return __awaiter(void 0, v
             case 5:
                 image = _a.sent();
                 res.writeHead(200, { "Content-Type": "text/html" });
-                res.write('<p style="text-align: center; font-weight: bold; font-size: 36px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
+                res.write('<p style="font-size: 18px;">Image Resized </p><img style="margin-right: auto; margin-left: auto;  display: block;" src="data:image/jpeg;base64,');
                 res.write(Buffer.from(image).toString("base64"));
                 res.end('"/>');
                 _a.label = 6;

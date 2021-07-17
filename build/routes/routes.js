@@ -8,7 +8,7 @@ var image_1 = __importDefault(require("./image/image"));
 var app = express_1.default();
 var routes = express_1.default.Router();
 routes.get("/", function (req, res) {
-    res.send("<h2>Routes</h2>");
+    res.send("<p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
 });
 routes.use("/image", image_1.default);
 exports.default = routes;

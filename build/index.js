@@ -8,7 +8,7 @@ var routes_1 = __importDefault(require("./routes/routes"));
 var app = express_1.default();
 var port = 3888;
 app.get("/", function (req, res) {
-    res.send("<h1>Main Route</h1>");
+    res.send("<p>Please, write url in this way to get desired results:<p><p>http://localhost:{port-number}/api/image?name={image-name.jpg}&width={desired-width}&height={desired-height}</p>");
 });
 app.use("/api", routes_1.default);
 //server configuration
