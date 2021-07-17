@@ -25,6 +25,11 @@ const displayResizedImage = async (
       `<p style="text-align: center; font-weight: bold; font-size: 36px;">Be sure to add a width and height!</p>`
     );
     return;
+  } esle if ( checkRequest(imageName, width, height)=== 'image not found') {
+    res.write(
+      `<p style="text-align: center; font-weight: bold; font-size: 36px;">Image not found!</p>`
+    );
+    return;
   }
 
   if (!(await checkCachedImages(imageName, width, height))) {
