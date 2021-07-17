@@ -1,15 +1,15 @@
 import express from "express";
 import checkImagePresence from "./checkImagePresence";
-const checkRequest = (
+const checkRequest = async(
   imageName: string,
   width: number,
   height: number
-): string => {
+): Promise<string> => {
   if (!imageName) {
     return "no image name";
   } else if (!width || !height) {
     return "no width or height";
-  } else if (!checkImagePresence(imageName)) {
+  } else if (!await checkImagePresence(imageName)) {
     return "image not found";
   }
   return "ok";
